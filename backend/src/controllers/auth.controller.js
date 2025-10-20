@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 // A function that generate JWT Token that can be used later when user logs in or signs up
 const generateToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: JWT_SECRET });
+    return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRE });
 };
 
 // @desc    Register new user
@@ -44,7 +44,7 @@ export const register = async (req, res) => {
         });
     }
     catch (error) {
-        res.statu(500).json({
+        res.status(500).json({
             success: false,
             message: error.message
         })
