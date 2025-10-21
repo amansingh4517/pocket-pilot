@@ -5,6 +5,7 @@ import cors from 'cors';
 
 
 import authRouter from './routes/auth.routes.js';
+import transactionRouter from './routes/transaction.routes.js';
 
 
 // Load environment variables
@@ -29,6 +30,7 @@ app.get('/', (req, res) => {
 
 // Mount routes
 app.use('/api/auth', authRouter);
+app.use('/api/transactions',transactionRouter);
 
 // Start server
 const PORT = process.env.PORT || 5000; // Get PORT from .env file, or use 5000 if not set
