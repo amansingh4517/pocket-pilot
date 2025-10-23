@@ -78,6 +78,11 @@ export const getTransaction = async (req, res) => {
                 message: 'Not authorized to access this transaction'
             });
         }
+
+        res.status(200).json({
+            success: true,
+            data: transaction
+        });
     }
     catch (error) {
         res.status(500).json({
@@ -149,7 +154,7 @@ export const deleteTransaction = async (req, res) => {
         }
 
         // Make sure user owns this transaction
-        if(transaction.userId.toString() !== req.user.id){
+        if (transaction.userId.toString() !== req.user.id) {
             return res.status(403).json({
                 success: false,
                 message: 'Not authorized to delete this transaction'
