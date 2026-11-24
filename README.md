@@ -1,149 +1,65 @@
-# 💰 PocketPilot - Student Finance Tracker
+# PocketPilot — Student Finance Tracker
 
-> **Empowering students to take control of their finances, one transaction at a time.**
+PocketPilot helps students track pocket money, see where it goes, and reflect on how purchases felt. The React frontend lives in `frontend/` and uses the Express and MongoDB API in `backend/`.
 
-A full-stack personal finance management application designed specifically for students to track pocket money, analyze spending patterns, and build healthy financial habits through mindful expense tracking.
+## Run locally
 
-![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
-![Express.js](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)
-![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![Status](https://img.shields.io/badge/Status-In%20Development-yellow?style=for-the-badge)
+Use Node.js 22 or newer, npm, and a running MongoDB instance. Start both services from the repository root in separate terminals.
 
----
+### 1. Start the API
 
-## 📊 Project Progress
+Create `backend/.env` with the following settings. Substitute your MongoDB connection string and a randomly generated secret.
 
-```
-████████████████░░░░░░░░░░░░ 55% Complete
-
-✅ Planning & Design          [100%] ━━━━━━━━━━ Complete
-✅ Backend Development        [100%] ━━━━━━━━━━ Complete
-⏳ Frontend Development       [ 0%] ░░░░░░░░░░ Not Started
-⏳ Integration & Testing      [ 0%] ░░░░░░░░░░ Not Started
-⏳ Deployment                 [ 0%] ░░░░░░░░░░ Not Started
+```dotenv
+MONGO_URI=mongodb://127.0.0.1:27017/pocketpilot
+JWT_SECRET=replace-with-a-long-random-secret
+JWT_EXPIRE=7d
+PORT=5000
 ```
 
-**Last Updated:** October 23, 2025  
-**Status:** Backend Complete | Frontend In Progress  
-**Developer:** [@amansingh4517](https://github.com/amansingh4517)
-
----
-
-## 🎯 The Problem
-
-As students, we receive pocket money from parents but often lose track of:
-- Where our money goes
-- Whether purchases were worth it
-- How much we can save
-- Spending patterns across categories
-
-**PocketPilot solves this** by providing an intuitive platform to track, analyze, and reflect on financial decisions.
-
----
-
-## ✨ Key Features
-
-### ✅ Implemented (Backend Complete)
-
-- 🔐 **Secure Authentication**
-  - User registration with encrypted passwords
-  - JWT-based login system
-  - Protected routes with middleware
-
-- 💸 **Transaction Management**
-  - Add income (pocket money, gifts, freelance)
-  - Record expenses with 8 categories
-  - Edit and delete transactions
-  - Date-based tracking
-
-- 📊 **Dashboard Analytics**
-  - Real-time financial summary (income, expenses, savings)
-  - Category-wise breakdown with percentages
-  - Recent transaction history
-  - Satisfaction analysis
-
-- 😊 **Unique Feature: Satisfaction Rating**
-  - Rate each expense: Happy 😊 | Neutral 😐 | Regret 😢
-  - Track if purchases were worth it
-  - Build financial awareness over time
-
-### 🔄 In Progress
-
-- 🎨 Frontend UI/UX with React
-- 📱 Responsive design for mobile
-- 📈 Interactive charts and visualizations
-- 🔍 Advanced filtering and search
-
-### 📋 Planned
-
-- 🎯 Budget goals and alerts
-- 📧 Monthly email reports
-- 💾 Export data (CSV/PDF)
-- 🔄 Recurring transactions
-- 👥 Compare with peers (anonymous)
-
----
-
-## 🏗️ Architecture
-
-```
-pocketpilot/
-│
-├── 📁 backend/                    ✅ COMPLETE
-│   ├── src/
-│   │   ├── config/                # Database connection
-│   │   ├── controllers/           # Business logic (3 controllers)
-│   │   ├── middleware/            # JWT auth middleware
-│   │   ├── models/                # MongoDB schemas (2 models)
-│   │   ├── routes/                # API endpoints (3 route files)
-│   │   ├── utils/                 # Constants & helpers
-│   │   └── server.js              # Express server entry
-│   ├── .env                       # Environment variables
-│   ├── package.json               # Dependencies
-│   └── README.md                  # Backend documentation
-│
-└── 📁 frontend/                   ⏳ COMING SOON
-    ├── src/
-    │   ├── components/            # Reusable UI components
-    │   ├── pages/                 # Route pages
-    │   ├── services/              # API integration
-    │   ├── utils/                 # Helper functions
-    │   └── App.jsx                # Root component
-    └── package.json
+```sh
+cd backend
+npm ci
+npm run dev
 ```
 
----
+Open [the API health endpoint](http://localhost:5000/) to check that Express is running. The terminal should also report a successful MongoDB connection.
 
-## 🛠️ Tech Stack
+### 2. Start the frontend
 
-### Backend (Complete ✅)
+```sh
+cd frontend
+npm ci
+npm run dev
+```
 
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| Node.js | 18.x | JavaScript runtime |
-| Express.js | 4.x | Web framework |
-| MongoDB | 6.x | NoSQL database |
-| Mongoose | 8.x | ODM for MongoDB |
-| JWT | 9.x | Authentication |
-| Bcrypt | 2.x | Password encryption |
+Open the local URL printed by Vite, usually [localhost:5173](http://localhost:5173/). Choose **Create an account**, then **Add transaction** to record your first income or expense.
 
-### Frontend (Planned 🔄)
+Vite forwards requests under `/api` to `http://127.0.0.1:5000`. If the API runs elsewhere, set `API_TARGET` in `frontend/.env.local` to its origin and restart Vite.
 
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| React | 18.x | UI library |
-| Vite | 5.x | Build tool |
-| TailwindCSS | 3.x | Styling |
-| Axios | 1.x | HTTP client |
-| Chart.js | 4.x | Data visualization |
-| React Router | 6.x | Navigation |
+## Using PocketPilot
 
----
+- **Overview** shows savings, total income, total expenses, spending by category, purchase satisfaction, and the five most recent transactions.
+- **Transactions** lets you search by purpose and filter by type and category. Select a transaction to edit it or confirm deletion.
+- **Expense ratings** are optional. Choose Happy, Neutral, or Regret to include an expense in the satisfaction breakdown.
+- **Accounts** use a bearer token stored in the current browser tab’s session storage. Signing out clears it.
+
+The interface displays amounts in Indian rupees (₹). The backend stores numeric amounts without a currency field.
+
+## Build and preview
+
+From `frontend/`, run:
+
+```sh
+npm run build
+npm run preview
+```
+
+The build is written to `frontend/dist/`. Preview uses the same API proxy as development. For production, serve the built files and route `/api/*` on the same origin to Express.
 
 ## 📚 API Overview
 
-### ✅ Completed Endpoints (13 Total)
+The API exposes 12 endpoints under the three route groups below. Login and registration are public. All other endpoints require an `Authorization: Bearer <token>` header.
 
 #### Authentication (3 endpoints)
 ```
@@ -169,55 +85,6 @@ GET    /api/dashboard/recent           # Recent transactions
 GET    /api/dashboard/satisfaction     # Satisfaction analysis
 ```
 
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-```bash
-# Required software
-Node.js (v14+)
-MongoDB (local or Atlas)
-npm or yarn
-Git
-```
-
-### 🔧 Backend Setup (Ready to Run!)
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/amansingh4517/pocketpilot.git
-cd pocketpilot/backend
-
-# 2. Install dependencies
-npm install
-
-# 3. Create environment file
-cp .env.example .env
-# Edit .env with your MongoDB URI and JWT secret
-
-# 4. Start the server
-npm run dev
-
-# Server runs on http://localhost:5000
-```
-
-✅ **Backend Status:** Fully functional and tested!
-
----
-
-### 🎨 Frontend Setup (Coming Soon)
-
-```bash
-# Will be available soon
-cd pocketpilot/frontend
-npm install
-npm run dev
-```
-
-⏳ **Frontend Status:** Development starting soon!
-
----
 
 ## 💾 Database Design
 
@@ -257,83 +124,6 @@ npm run dev
 
 ---
 
-## 🧪 Testing Status
-
-### Backend Testing ✅
-- [x] User registration
-- [x] User login with JWT
-- [x] Protected routes
-- [x] Create income transaction
-- [x] Create expense transaction
-- [x] Get all transactions
-- [x] Update transaction
-- [x] Delete transaction
-- [x] Dashboard summary
-- [x] Category breakdown
-- [x] Recent transactions
-- [x] Satisfaction analysis
-- [x] Authorization checks
-
-**Tools Used:** Postman, Manual Testing
-
----
-
-## 📈 Development Timeline
-
-### Phase 1: Backend Development ✅ (Completed: Oct 23, 2025)
-- [x] Project setup and structure
-- [x] Database models design
-- [x] Authentication system
-- [x] Transaction CRUD operations
-- [x] Dashboard analytics
-- [x] API testing
-
-**Duration:** 1 weeks  
-**Status:** 100% Complete
-
----
-
-### Phase 2: Frontend Development 🔄 (In Progress)
-- [ ] React + Vite setup
-- [ ] UI component library
-- [ ] Authentication pages (Login/Register)
-- [ ] Dashboard with charts
-- [ ] Transaction list view
-- [ ] Add/Edit transaction forms
-- [ ] Category filter
-- [ ] Responsive design
-
-**Estimated Duration:** 3-4 weeks  
-**Status:** Starting soon
-
----
-
-### Phase 3: Integration & Polish ⏳ (Planned)
-- [ ] Connect frontend to backend API
-- [ ] Error handling & loading states
-- [ ] Form validations
-- [ ] User feedback (toasts/notifications)
-- [ ] Performance optimization
-- [ ] Cross-browser testing
-
-**Estimated Duration:** 1-2 weeks  
-**Status:** Not started
-
----
-
-### Phase 4: Deployment 🚀 (Planned)
-- [ ] Backend deployment (Render/Railway)
-- [ ] Frontend deployment (Vercel/Netlify)
-- [ ] MongoDB Atlas configuration
-- [ ] Environment setup
-- [ ] Domain configuration
-- [ ] SSL certificates
-
-**Estimated Duration:** 1 week  
-**Status:** Not started
-
----
-
 ## 🎓 What I Learned
 
 ### Technical Skills
@@ -360,47 +150,6 @@ npm run dev
 - ✅ MongoDB Compass
 - ✅ Git & GitHub
 - ✅ npm package management
-
----
-
-## 🔒 Security Features
-
-- 🔐 **Password Encryption** - Bcrypt with salt rounds
-- 🎫 **JWT Tokens** - Stateless authentication (7-day expiry)
-- 🛡️ **Protected Routes** - Middleware verification
-- 🔑 **Environment Variables** - Sensitive data hidden
-- 👤 **User Authorization** - Users can only access own data
-- ✅ **Input Validation** - Mongoose schema validation
-- 🚫 **SQL Injection Prevention** - NoSQL with Mongoose
-
----
-
-## 📸 Screenshots
-
-*Coming soon after frontend development!*
-
-**Planned Views:**
-- 📊 Dashboard with financial summary
-- 💸 Transaction list with filters
-- ➕ Add transaction form
-- 📈 Category breakdown charts
-- 😊 Satisfaction analysis view
-
----
-
-## 🗓️ Milestones Achieved
-
-```
-✅ Oct 3, 2025  - Project initialization
-✅ Oct 5, 2025  - Database design complete
-✅ Oct 10, 2025 - Authentication system working
-✅ Oct 15, 2025 - Transaction CRUD complete
-✅ Oct 20, 2025 - Dashboard analytics implemented
-✅ Oct 23, 2025 - Backend fully tested & documented
-⏳ Nov 5, 2025  - Frontend development (target)
-⏳ Nov 20, 2025 - Full integration (target)
-⏳ Nov 30, 2025 - Deployment (target)
-```
 
 ---
 
@@ -438,21 +187,12 @@ chore:    Build/config changes
 
 ---
 
-## 🎯 Roadmap
-
-### v1.0 (MVP) - Target: November 2025
-- [x] Backend API
-- [ ] Frontend UI
-- [ ] Basic authentication
-- [ ] Transaction management
-- [ ] Dashboard analytics
-
-### v2.0 - Future Enhancements
+## Roadmap
 - [ ] Budget goals & alerts
 - [ ] Recurring transactions
 - [ ] Monthly reports via email
 - [ ] Data export (CSV/PDF)
-- [ ] - [ ] Group expenses (shared with roommates)
+- [ ] Group expenses (shared with roommates)
 
 ---
 
@@ -482,69 +222,3 @@ This project was born from personal experience as a student struggling to manage
 - Want to discuss features
 
 ---
-
-## ⭐ Show Your Support
-
-If this project helped you learn or gave you ideas:
-
-- ⭐ **Star** this repository
-- 🍴 **Fork** it for your own use
-- 📢 **Share** with fellow developers
-- 💬 **Provide feedback** via issues
-
-**Every star motivates me to build more! 🚀**
-
----
-
-## 🙏 Acknowledgments
-
-- **MongoDB** - For excellent documentation
-- **Express.js** - For powerful web framework
-- **React** - For component-based UI (coming soon!)
-- **MERN Community** - For tutorials and support
-- **YouTube Creators** - For free educational content
-- **Open Source** - For making learning accessible
-- **AI Tools** - For accelerating learning and problem-solving during development
-
----
-
-## 📊 Project Stats
-
-```
-📁 Files Created:      25+
-💻 Lines of Code:      ~2000
-⏰ Development Time:   60+ hours
-☕ Coffee Consumed:    Countless cups
-🐛 Bugs Fixed:         Several (and counting)
-💡 Lessons Learned:    Priceless
-```
-
----
-
-## 🎉 Latest Updates
-
-### October 23, 2025
-- ✅ Backend API complete (13 endpoints)
-- ✅ All endpoints tested successfully
-- ✅ Documentation updated
-- ✅ Ready for frontend development
-- 📝 Created comprehensive README
-- 🎯 Next: Starting React frontend
-
----
-
-<div align="center">
-
-### 🚀 Built with 💻 and ☕ by Aman Singh
-
-**Status:** Backend Complete | Frontend In Progress  
-**Next Milestone:** Frontend MVP  
-**Follow the journey:** [GitHub](https://github.com/amansingh4517) | [LinkedIn](https://linkedin.com/in/amansingh4517)
-
----
-
-**⭐ Star this repo to follow the development journey!**
-
-*"Learning in public, building for students."*
-
-</div>
